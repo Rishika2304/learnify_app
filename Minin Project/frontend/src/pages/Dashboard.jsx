@@ -1,8 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
+/*frontend/src/pages/Dashboard.jsx*/import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import { BookOpen, PlayCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Dashboard = () => {
   const { user } = useContext(AuthContext);
@@ -23,7 +24,7 @@ const Dashboard = () => {
 
   const fetchCourses = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/courses');
+      const { data } = await axios.get(`${API_URL}/api/courses`);
       setCourses(data);
     } catch (e) {
       console.error(e);
@@ -33,7 +34,7 @@ const Dashboard = () => {
   const fetchMyEnrollments = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/courses/enrollments/my', config);
+      const { data } = await axios.get(`${API_URL}/api/courses/enrollments/my`, config);
       setMyEnrollments(data);
     } catch (e) {
       console.error(e);
@@ -44,7 +45,7 @@ const Dashboard = () => {
     if (!user) return navigate('/login');
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post(`http://localhost:5000/api/courses/${courseId}/enroll`, {}, config);
+      await axios.post(`${API_URL}/api/courses/${courseId}/enroll`, {}, config);
       fetchMyEnrollments();
     } catch (e) {
       alert(e.response?.data?.message || 'Enrollment failed');

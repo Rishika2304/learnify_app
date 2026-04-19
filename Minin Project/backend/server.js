@@ -1,3 +1,4 @@
+/*backemd/server.js*/
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -46,7 +47,6 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // Port configuration
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });

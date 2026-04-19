@@ -1,8 +1,9 @@
-import { useState, useEffect, useContext } from 'react';
+/*frontend/src/pages/InstructorDashboard.jsx*/import { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import { PlusCircle, Trash2, Edit2, PlayCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const InstructorDashboard = () => {
   const { user } = useContext(AuthContext);
@@ -32,7 +33,7 @@ const InstructorDashboard = () => {
 
   const fetchMyCourses = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/courses');
+      const { data } = await axios.get(`${API_URL}/api/courses`);
       const myCourses = data.filter(c => c.instructorId?._id === user._id);
       setCourses(myCourses);
     } catch (e) {
@@ -44,7 +45,7 @@ const InstructorDashboard = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/courses', { title, description }, config);
+      await axios.post(`${API_URL}/api/courses`, { title, description }, config);
       setShowCreate(false);
       setTitle('');
       setDescription('');
@@ -58,7 +59,7 @@ const InstructorDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this course?')) return;
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.delete(`http://localhost:5000/api/courses/${courseId}`, config);
+      await axios.delete(`${API_URL}/api/courses/${courseId}`, config);
       fetchMyCourses();
     } catch (e) {
       alert('Error deleting course');
@@ -83,9 +84,9 @@ const InstructorDashboard = () => {
       });
 
       // 2. Add Lesson
-      await axios.post(`http://localhost:5000/api/courses/${activeCourseId}/lessons`, {
+      await axios.post(`${API_URL}/api/courses/${activeCourseId}/lessons`, {
         title: lessonTitle,
-        videoUrl: `http://localhost:5000${uploadData.url}`,
+        videoUrl: `${API_URL}${uploadData.url}`,
         content
       }, config);
       

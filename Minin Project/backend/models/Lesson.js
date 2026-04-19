@@ -1,3 +1,4 @@
+/*backemd/models/Lesson.js*/
 const mongoose = require('mongoose');
 
 const lessonSchema = new mongoose.Schema(

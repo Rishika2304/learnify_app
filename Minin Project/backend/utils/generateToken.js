@@ -1,3 +1,4 @@
+/*backemd/utils/generateToken.js*/
 const jwt = require('jsonwebtoken');
 
 const generateToken = (id) => {

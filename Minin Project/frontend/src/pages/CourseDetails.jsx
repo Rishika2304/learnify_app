@@ -1,8 +1,10 @@
+/*frontend/src/pages/CourseDetails.jsx*/
 import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
 import { PlayCircle, CheckCircle } from 'lucide-react';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -24,7 +26,7 @@ const CourseDetails = () => {
   const fetchCourseDetails = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get(`http://localhost:5000/api/courses/${id}`, config);
+      const { data } = await axios.get(`${API_URL}/api/courses/${id}`, config);
       setCourse(data);
       if (data.lessons && data.lessons.length > 0) {
         setActiveLesson(data.lessons[0]);
@@ -37,7 +39,7 @@ const CourseDetails = () => {
   const fetchProgress = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/courses/enrollments/my', config);
+      const { data } = await axios.get(`${API_URL}/api/courses/enrollments/my`, config);
       const enrollment = data.find(en => en.courseId?._id === id);
       if (enrollment) {
         setProgress(enrollment.progress);
@@ -56,7 +58,7 @@ const CourseDetails = () => {
     
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/courses/${id}/progress`, { progress: newProgress }, config);
+      await axios.put(`${API_URL}/api/courses/${id}/progress`, { progress: newProgress }, config);
       setProgress(newProgress);
     } catch (e) {
       console.error(e);

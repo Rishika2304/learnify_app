@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+/*frontend/src/pages/LnadingPage.jsx*/import { Link } from 'react-router-dom';
 import { BookOpen, Users, Video, Target } from 'lucide-react';
 
 const LandingPage = () => {
